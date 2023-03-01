@@ -1,0 +1,40 @@
+<div >
+  <h5>
+    Edit Client Account
+  </h5>
+
+  <div>
+    <form action="/modify_client" method="post">
+      <div>
+        <label for="email_box">Email</label>
+        <input id="email_box" name="query_email" value="<%= @current_client.email %>">
+      </div>
+      <div>
+        <label for="company_id_box">Company</label>
+        <input id="company_id_box" name="query_company_id" value="<%= @current_client.company_id %>">
+      </div>
+      <div>
+        <label for="firstname_box">Firstname</label>
+        <input id="firstname_box" name="query_firstname" value="<%= @current_client.firstname %>">
+      </div>
+      <div>
+        <label for="lastname_box">Lastname</label>
+        <input id="lastname_box" name="query_lastname" value="<%= @current_client.lastname %>">
+      </div>
+
+      <div>
+        <label for="password_box">Password</label>
+        <input id="password_box" name="query_password" placeholder="Choose a password..." type="password">
+      </div>
+    
+      <div>
+        <label for="password_confirmation_box">Password Confirmation</label>
+        <input id="password_confirmation_box" name="query_password_confirmation" placeholder="Confirm your password..." type="password">
+      </div>
+
+      <button>
+        Update account
+      </button>
+    </form>
+  </div>
+</div>

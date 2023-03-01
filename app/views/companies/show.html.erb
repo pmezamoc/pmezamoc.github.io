@@ -1,0 +1,161 @@
+<div>
+  <div>
+    <h1>
+      Company #<%= @the_company.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/companies">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_company/<%= @the_company.id %>">
+          Delete company
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Company name
+      </dt>
+      <dd>
+        <%= @the_company.company_name %>
+      </dd>
+
+      <dt>
+        Year founded
+      </dt>
+      <dd>
+        <%= @the_company.year_founded %>
+      </dd>
+
+      <dt>
+        Industry
+      </dt>
+      <dd>
+        <%= @the_company.industry %>
+      </dd>
+
+      <dt>
+        Vc backed
+      </dt>
+      <dd>
+        <%= @the_company.vc_backed %>
+      </dd>
+
+      <dt>
+        Last round type
+      </dt>
+      <dd>
+        <%= @the_company.last_round_type %>
+      </dd>
+
+      <dt>
+        Valuation
+      </dt>
+      <dd>
+        <%= @the_company.valuation %>
+      </dd>
+
+      <dt>
+        Deal date
+      </dt>
+      <dd>
+        <%= @the_company.deal_date %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_company.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_company.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit company
+    </h2>
+
+    <form action="/modify_company/<%= @the_company.id %>"  method="post" >
+      <div>
+        <label for="company_name_box">
+          Company name
+        </label>
+
+        <input type="text" id="company_name_box" name="query_company_name" value="<%= @the_company.company_name %>">
+      </div>
+
+      <div>
+        <label for="year_founded_box">
+          Year founded
+        </label>
+
+        <input type="text" id="year_founded_box" name="query_year_founded" value="<%= @the_company.year_founded %>">
+      </div>
+
+      <div>
+        <label for="industry_box">
+          Industry
+        </label>
+
+        <input type="text" id="industry_box" name="query_industry" value="<%= @the_company.industry %>">
+      </div>
+
+      <div>
+        <input type="checkbox" id="vc_backed_box" name="query_vc_backed" value="1" <%= "checked" if @the_company.vc_backed %>>
+
+        <label for="vc_backed_box">
+            Vc backed
+        </label>
+      </div>
+
+      <div>
+        <label for="last_round_type_box">
+          Last round type
+        </label>
+
+        <input type="text" id="last_round_type_box" name="query_last_round_type" value="<%= @the_company.last_round_type %>">
+      </div>
+
+      <div>
+        <label for="valuation_box">
+          Valuation
+        </label>
+
+        <input type="text" id="valuation_box" name="query_valuation" value="<%= @the_company.valuation %>">
+      </div>
+
+      <div>
+        <label for="deal_date_box">
+          Deal date
+        </label>
+
+        <input type="date" id="deal_date_box" name="query_deal_date" value="<%= @the_company.deal_date %>">
+      </div>
+
+      <button>
+        Update company
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

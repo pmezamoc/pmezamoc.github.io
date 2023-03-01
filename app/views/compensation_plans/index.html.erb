@@ -1,0 +1,230 @@
+<div>
+  <div>
+    <h1>
+      List of all compensation plans
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add a new compensation plan
+    </h2>
+
+    <form action="/insert_compensation_plan" method="post">
+      <div>
+        <label for="stock_type_box">
+          Stock type
+        </label>
+
+        <input type="text" id="stock_type_box" name="query_stock_type">
+      </div>
+
+      <div>
+        <label for="strike_price_box">
+          Strike price
+        </label>
+
+        <input type="text" id="strike_price_box" name="query_strike_price">
+      </div>
+
+      <div>
+        <label for="vesting_years_box">
+          Vesting years
+        </label>
+
+        <input type="text" id="vesting_years_box" name="query_vesting_years">
+      </div>
+
+      <div>
+        <label for="cliff_box">
+          Cliff
+        </label>
+
+        <input type="text" id="cliff_box" name="query_cliff">
+      </div>
+
+      <div>
+        <label for="number_of_options_box">
+          Number of options
+        </label>
+
+        <input type="text" id="number_of_options_box" name="query_number_of_options">
+      </div>
+
+      <div>
+        <label for="value_of_options_box">
+          Value of options
+        </label>
+
+        <input type="text" id="value_of_options_box" name="query_value_of_options">
+      </div>
+
+      <div>
+        <label for="salary_box">
+          Salary
+        </label>
+
+        <input type="text" id="salary_box" name="query_salary">
+      </div>
+
+      <div>
+        <label for="salary_period_box">
+          Salary period
+        </label>
+
+        <input type="text" id="salary_period_box" name="query_salary_period">
+      </div>
+
+      <div>
+        <label for="bonus_box">
+          Bonus
+        </label>
+
+        <input type="text" id="bonus_box" name="query_bonus">
+      </div>
+
+      <div>
+        <label for="employee_id_box">
+          Employee
+        </label>
+
+        <input type="text" id="employee_id_box" name="query_employee_id">
+      </div>
+
+      <button>
+        Create compensation plan
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Stock type
+        </th>
+
+        <th>
+          Strike price
+        </th>
+
+        <th>
+          Vesting years
+        </th>
+
+        <th>
+          Cliff
+        </th>
+
+        <th>
+          Number of options
+        </th>
+
+        <th>
+          Value of options
+        </th>
+
+        <th>
+          Salary
+        </th>
+
+        <th>
+          Salary period
+        </th>
+
+        <th>
+          Bonus
+        </th>
+
+        <th>
+          Employee
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_compensation_plans.each do |a_compensation_plan| %>
+      <tr>
+        <td>
+          <%= a_compensation_plan.id %>
+        </td>
+
+        <td>
+          <%= a_compensation_plan.stock_type %>
+        </td>
+
+        <td>
+          <%= a_compensation_plan.strike_price %>
+        </td>
+
+        <td>
+          <%= a_compensation_plan.vesting_years %>
+        </td>
+
+        <td>
+          <%= a_compensation_plan.cliff %>
+        </td>
+
+        <td>
+          <%= a_compensation_plan.number_of_options %>
+        </td>
+
+        <td>
+          <%= a_compensation_plan.value_of_options %>
+        </td>
+
+        <td>
+          <%= a_compensation_plan.salary %>
+        </td>
+
+        <td>
+          <%= a_compensation_plan.salary_period %>
+        </td>
+
+        <td>
+          <%= a_compensation_plan.bonus %>
+        </td>
+
+        <td>
+          <%= a_compensation_plan.employee_id %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_compensation_plan.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_compensation_plan.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/compensation_plans/<%= a_compensation_plan.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>

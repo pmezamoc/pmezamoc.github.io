@@ -1,0 +1,206 @@
+<div>
+  <div>
+    <h1>
+      Compensation plan #<%= @the_compensation_plan.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/compensation_plans">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_compensation_plan/<%= @the_compensation_plan.id %>">
+          Delete compensation plan
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Stock type
+      </dt>
+      <dd>
+        <%= @the_compensation_plan.stock_type %>
+      </dd>
+
+      <dt>
+        Strike price
+      </dt>
+      <dd>
+        <%= @the_compensation_plan.strike_price %>
+      </dd>
+
+      <dt>
+        Vesting years
+      </dt>
+      <dd>
+        <%= @the_compensation_plan.vesting_years %>
+      </dd>
+
+      <dt>
+        Cliff
+      </dt>
+      <dd>
+        <%= @the_compensation_plan.cliff %>
+      </dd>
+
+      <dt>
+        Number of options
+      </dt>
+      <dd>
+        <%= @the_compensation_plan.number_of_options %>
+      </dd>
+
+      <dt>
+        Value of options
+      </dt>
+      <dd>
+        <%= @the_compensation_plan.value_of_options %>
+      </dd>
+
+      <dt>
+        Salary
+      </dt>
+      <dd>
+        <%= @the_compensation_plan.salary %>
+      </dd>
+
+      <dt>
+        Salary period
+      </dt>
+      <dd>
+        <%= @the_compensation_plan.salary_period %>
+      </dd>
+
+      <dt>
+        Bonus
+      </dt>
+      <dd>
+        <%= @the_compensation_plan.bonus %>
+      </dd>
+
+      <dt>
+        Employee
+      </dt>
+      <dd>
+        <%= @the_compensation_plan.employee_id %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_compensation_plan.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_compensation_plan.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit compensation plan
+    </h2>
+
+    <form action="/modify_compensation_plan/<%= @the_compensation_plan.id %>"  method="post" >
+      <div>
+        <label for="stock_type_box">
+          Stock type
+        </label>
+
+        <input type="text" id="stock_type_box" name="query_stock_type" value="<%= @the_compensation_plan.stock_type %>">
+      </div>
+
+      <div>
+        <label for="strike_price_box">
+          Strike price
+        </label>
+
+        <input type="text" id="strike_price_box" name="query_strike_price" value="<%= @the_compensation_plan.strike_price %>">
+      </div>
+
+      <div>
+        <label for="vesting_years_box">
+          Vesting years
+        </label>
+
+        <input type="text" id="vesting_years_box" name="query_vesting_years" value="<%= @the_compensation_plan.vesting_years %>">
+      </div>
+
+      <div>
+        <label for="cliff_box">
+          Cliff
+        </label>
+
+        <input type="text" id="cliff_box" name="query_cliff" value="<%= @the_compensation_plan.cliff %>">
+      </div>
+
+      <div>
+        <label for="number_of_options_box">
+          Number of options
+        </label>
+
+        <input type="text" id="number_of_options_box" name="query_number_of_options" value="<%= @the_compensation_plan.number_of_options %>">
+      </div>
+
+      <div>
+        <label for="value_of_options_box">
+          Value of options
+        </label>
+
+        <input type="text" id="value_of_options_box" name="query_value_of_options" value="<%= @the_compensation_plan.value_of_options %>">
+      </div>
+
+      <div>
+        <label for="salary_box">
+          Salary
+        </label>
+
+        <input type="text" id="salary_box" name="query_salary" value="<%= @the_compensation_plan.salary %>">
+      </div>
+
+      <div>
+        <label for="salary_period_box">
+          Salary period
+        </label>
+
+        <input type="text" id="salary_period_box" name="query_salary_period" value="<%= @the_compensation_plan.salary_period %>">
+      </div>
+
+      <div>
+        <label for="bonus_box">
+          Bonus
+        </label>
+
+        <input type="text" id="bonus_box" name="query_bonus" value="<%= @the_compensation_plan.bonus %>">
+      </div>
+
+      <div>
+        <label for="employee_id_box">
+          Employee
+        </label>
+
+        <input type="text" id="employee_id_box" name="query_employee_id" value="<%= @the_compensation_plan.employee_id %>">
+      </div>
+
+      <button>
+        Update compensation plan
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
