@@ -4,6 +4,12 @@ Rails.application.routes.draw do
 
   # Routes for the Compensation plan resource:
 
+  get("/", {:controller => "application", :action => "start"})
+  get("/begin_service", {:controller => "application", :action => "begin_service"})
+  get("/value_offer", {:controller => "application", :action => "value_offer"})
+  get("/value_stock", {:controller => "application", :action => "value_stock"})
+  
+
   # CREATE
   post("/insert_compensation_plan", { :controller => "compensation_plans", :action => "create" })
           

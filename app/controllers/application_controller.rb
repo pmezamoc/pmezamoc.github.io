@@ -16,4 +16,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def start
+    render({:template => "home/homepage"})
+  end 
+
+  def begin_service
+    render({:template => "home/begin_service"})
+  end
+
+  def value_offer
+    render({:template => "home/value_offer"})
+  end
+
+  def value_stock
+    render({:template => "home/value_stock"})
+  end
 end
