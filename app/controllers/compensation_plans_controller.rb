@@ -69,4 +69,17 @@ class CompensationPlansController < ApplicationController
 
     redirect_to("/compensation_plans", { :notice => "Compensation plan deleted successfully."} )
   end
+
+
+  def store_offer_cookies
+
+    cookies.store(:company, params.fetch("query_company"))  
+    cookies.store(:stock_type, params.fetch("query_stock_type"))
+    cookies.store(:strike_price, params.fetch("query_strike_price"))
+    cookies.store(:vesting_years, params.fetch("query_vesting_years"))
+    cookies.store(:cliff, params.fetch("query_cliff"))
+    cookies.store(:number_of_options, params.fetch("query_number_of_options"))
+  
+  redirect_to("/client_sign_up")
+  end
 end

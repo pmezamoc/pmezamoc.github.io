@@ -28,7 +28,7 @@ module FinalProject
       g.factory_bot false
       g.scaffold_stylesheet false
       g.stylesheets     false
-      g.javascripts     false
+      g.javascripts     true
       g.helper          false
     end
     

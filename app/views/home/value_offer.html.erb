@@ -6,21 +6,39 @@
       Add a new offer
     </h2>
 
-    <form action="insert_compensation_plan" method="post">
-      <div>
-        <label for="company_name_box">
-          Company name
+    <form action="/store_offer_cookies" method="post">
+       <div>
+        <label for="company">
+          Company
         </label>
 
-        <input type="text" id="company_name_box" name="query_company_name">
+        <select id="company_box" name="query_company">
+        <%Company.all.each do |a_company|%>
+          <option value ="<%=a_company.company_name%>">
+                  <%=a_company.company_name%>
+          </option>
+        <%end%>
+        </select>
       </div>
 
-      <div>
         <label for="stock_type">
           Stock Type
         </label>
+        <select id="stock_type_box" name="query_stock_type">
+        <%stock_type = ["ISR","NSR","RSU"]%>
+        <%stock_type.each do |a_stock_type|%>
+          <option value ="<%=a_stock_type%>">
+                  <%=a_stock_type%>
+          </option>
+        <%end%>
+        </select>
 
-        <input type="text" id="stock_type_box" name="query_stock_type">
+      <div>
+        <label for="number_of_options">
+          Number of Options
+        </label>
+
+        <input type="text" id="number_of_options" name="query_number_of_options">
       </div>
 
       <div>
@@ -32,37 +50,22 @@
       </div>
 
       <div>
-        <input type="text" id="vesting_years" name="query_vesting_years" value="1">
-
         <label for="vesting_years">Vesting Years</label>
+        <input type="text" id="vesting_years" name="query_vesting_years" value="1">
       </div>
 
       <div>
-        <label for="last_round_type_box">
-          Last round type
+        <label for="cliff">
+          Cliff
         </label>
 
-        <input type="text" id="last_round_type_box" name="query_last_round_type">
+        <input type="text" id="cliff_box" name="query_cliff">
       </div>
 
-      <div>
-        <label for="valuation_box">
-          Valuation
-        </label>
-
-        <input type="text" id="valuation_box" name="query_valuation">
-      </div>
-
-      <div>
-        <label for="deal_date_box">
-          Deal date
-        </label>
-
-        <input type="date" id="deal_date_box" name="query_deal_date">
-      </div>
+      <p></p>
 
       <button>
-        Create company
+        Create offer
       </button>
     </form>
   </div>

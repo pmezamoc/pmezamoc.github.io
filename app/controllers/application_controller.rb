@@ -31,4 +31,10 @@ class ApplicationController < ActionController::Base
   def value_stock
     render({:template => "home/value_stock"})
   end
+
+  def offer_calculation
+    @offer_value = cookies[:number_of_options].to_i ** cookies[:strike_price].to_i
+    @taxes = @offer_value ** 0.16
+    render({:template => "results/offer_results"})
+  end
 end
