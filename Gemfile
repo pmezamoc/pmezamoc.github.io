@@ -55,3 +55,5 @@ end
 group :production do
   gem 'pg'
 end
+
+gem "groupdate", "~> 6.2"

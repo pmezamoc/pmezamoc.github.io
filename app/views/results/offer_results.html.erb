@@ -1,10 +1,10 @@
 <h1>Value your Offer</h1>
 
+<table style = "width:1000px">
+<tr>
+<td>
 <div>
   <div>
-    <h2>
-      Add a new offer
-    </h2>
 
     <form action="/store_offer_cookies" method="post">
        <div>
@@ -58,14 +58,27 @@
     </form>
   </div>
   <div>
+</td>
+<td>
+<%= column_chart ({"Value" => @offer_value, "Taxes" => @taxes})%>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
   <ul> 
     <li>
     Your offer value is <%=@offer_value%>
     </li>
     <li>
-    Your will need to pay <%=@taxes%> in Taxes
+    Your will need to pay <%=@taxes.round%> in Taxes
     </li>
   </ul>
 
   </div>
 </div>
+</td>
+</tr>
+
+</table>
