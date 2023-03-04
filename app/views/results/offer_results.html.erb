@@ -15,7 +15,21 @@
         <input type = "text" id="company_box" name="query_company" value = <%=cookies[:company]%>>
 
       </div>
+      <h2>Cash Compensation</h2>
+        <label for="stock_type">
+          Stock Type
+        </label>
+        <input type = "text" id="stock_type_box" name="query_stock_type" value = <%=cookies[:stock_type]%>>
 
+      <div>
+        <label for="number_of_options">
+          Number of Options
+        </label>
+
+        <input type="text" id="number_of_options" name="query_number_of_options" value = <%=cookies[:number_of_options]%>>
+      </div>
+      
+      <h2>Equity Compensation</h2>
         <label for="stock_type">
           Stock Type
         </label>
@@ -82,3 +96,8 @@
 </tr>
 
 </table>
+
+<h1>Vesting Calendar</h1>
+<hr>
+
+<%= column_chart @new_array, xtitle: "Months", ytitle: "Vested Stock" %>
