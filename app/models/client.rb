@@ -15,4 +15,9 @@ class Client < ApplicationRecord
   validates :email, :uniqueness => { :case_sensitive => false }
   validates :email, :presence => true
   has_secure_password
+
+  belongs_to(:company, { :required => true, :class_name => "Company", :foreign_key => "company_id" })
+
+  has_many(:compensation_plans, { :class_name => "CompensationPlan", :foreign_key => "employee_id", :dependent => :destroy })
+
 end

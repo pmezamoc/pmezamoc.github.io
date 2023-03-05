@@ -14,4 +14,9 @@
 #  updated_at      :datetime         not null
 #
 class Company < ApplicationRecord
+  has_many(:clients, { :class_name => "Client", :foreign_key => "company_id", :dependent => :destroy })
+
+  has_many(:compensation_plans, { :through => :clients, :source => :compensation_plans })
+
+
 end

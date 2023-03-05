@@ -11,3 +11,14 @@
 <form action ="/companies">
 <button>View Companies</button>
 </form>
+
+<%if session[:client_id] == nil%>
+  <%else%>
+  <%the_plan_id = CompensationPlan.where({employee_id: session[:client_id] }).first %>
+  <%if the_plan_id == nil%>
+  <%else%>
+  <form action ="/compensation_plans/<%=the_plan_id.id%>">
+  <button>View Plans</button>
+  </form>
+  <%end%>
+<%end%>

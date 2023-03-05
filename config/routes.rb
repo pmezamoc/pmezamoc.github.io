@@ -5,10 +5,8 @@ Rails.application.routes.draw do
   # Routes for the Compensation plan homeflow:
   post("/recalculate", {:controller => "application", :action => "recalculate"})
   post("/store_offer_cookies", {:controller => "compensation_plans", :action => "store_offer_cookies"})
- 
   get("/", {:controller => "application", :action => "start"})
   get("/begin_service", {:controller => "application", :action => "begin_service"})
-
   get("/value_offer", {:controller => "application", :action => "value_offer"})
   get("/value_stock", {:controller => "application", :action => "value_stock"})
   
@@ -39,6 +37,8 @@ Rails.application.routes.draw do
   get("/client_sign_up", { :controller => "client_authentication", :action => "sign_up_form" })        
   # CREATE RECORD
   post("/insert_client", { :controller => "client_authentication", :action => "create"  })
+  # SIGN OUT
+  get("/destroy_cookies", {:controller => "client_authentication", :action => "destroy_cookies"})
       
   # EDIT PROFILE FORM        
   get("/edit_client_profile", { :controller => "client_authentication", :action => "edit_profile_form" })       

@@ -17,6 +17,13 @@
   <h1>Sommos</h1>
   <body>
   
+  <%if session.fetch(:client_id) != nil%>
+  <ul>
+    <li>
+      <a href = "/destroy_cookies">User Sign Out</a>
+    </li>
+  </ul>
+  <%else%>
   <ul>
     <li>
       <a href = "/user_sign_up">User Sign Up</a>
@@ -31,6 +38,7 @@
       <a href = "/">Homepage</a>
     </li>
   </ul>
+  <%end%>
     <%= yield %>
   </body>
 </html>

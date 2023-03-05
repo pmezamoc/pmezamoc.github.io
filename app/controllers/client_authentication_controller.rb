@@ -19,7 +19,7 @@ class ClientAuthenticationController < ApplicationController
       else
         session[:client_id] = client.id
       
-        redirect_to("/", { :notice => "Signed in successfully." })
+        redirect_to("/begin_service", { :notice => "Signed in successfully." })
       end
     else
       redirect_to("/client_sign_in", { :alert => "No client with that email address." })
@@ -50,7 +50,7 @@ class ClientAuthenticationController < ApplicationController
     if save_status == true
       session[:client_id] = @client.id
    
-      redirect_to("/offer_calculation", { :notice => "Client account created successfully."})
+      redirect_to("/begin_service", { :notice => "Client account created successfully."})
     else
       redirect_to("/client_sign_up", { :alert => @client.errors.full_messages.to_sentence })
     end

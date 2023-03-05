@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
   end 
 
   def begin_service
+
     render({:template => "home/begin_service"})
   end
 
