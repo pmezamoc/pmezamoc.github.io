@@ -1,39 +1,42 @@
 <h1>Value your Offer</h1>
 
-<table style = "width:1000px">
+<table >
+<th>
+</th>
+
 <tr>
 <td>
 <div>
   <div>
 
-    <form action="/store_offer_cookies" method="post">
+    <form action="/recalculate" method="post">
        <div>
         <label for="company">
           Company
         </label>
 
-        <input type = "text" id="company_box" name="query_company" value = <%=cookies[:company]%>>
-
+        <select id="company_box" name="query_company">
+        <%Company.all.each do |a_company|%>
+          <option value ="<%=cookies[:company]%>">
+                  <%=a_company.company_name%>
+          </option>
+        <%end%>
+        </select>
       </div>
-      <h2>Cash Compensation</h2>
-        <label for="stock_type">
-          Stock Type
-        </label>
-        <input type = "text" id="stock_type_box" name="query_stock_type" value = <%=cookies[:stock_type]%>>
 
-      <div>
-        <label for="number_of_options">
-          Number of Options
-        </label>
-
-        <input type="text" id="number_of_options" name="query_number_of_options" value = <%=cookies[:number_of_options]%>>
-      </div>
-      
       <h2>Equity Compensation</h2>
-        <label for="stock_type">
+
+              <label for="stock_type">
           Stock Type
         </label>
-        <input type = "text" id="stock_type_box" name="query_stock_type" value = <%=cookies[:stock_type]%>>
+        <select id="stock_type_box" name="query_stock_type">
+        <%stock_type = ["ISR","NSR"]%>
+        <%stock_type.each do |a_stock_type|%>
+          <option value = "<%=cookies[:stock_type]%>">
+                  <%=a_stock_type%>
+          </option>
+        <%end%>
+        </select>
 
       <div>
         <label for="number_of_options">
@@ -73,31 +76,30 @@
   </div>
   <div>
 </td>
-<td>
-<%= column_chart ({"Value" => @offer_value, "Taxes" => @taxes})%>
-</td>
-</tr>
-<tr>
-<td>
-</td>
-<td>
-  <ul> 
-    <li>
-    Your offer value is <%=@offer_value%>
-    </li>
-    <li>
-    Your will need to pay <%=@taxes.round%> in Taxes
-    </li>
-  </ul>
 
-  </div>
-</div>
-</td>
+
 </tr>
 
 </table>
 
+<h1>Exercise Scenarios</h1>
+<hr>
+<%#=@new_array%>
+<%= column_chart data = [
+  {
+    name: "Cost to Exercise", 
+    data: @cost_to_exercise
+  },
+  {
+    name: "Taxes", 
+    data: @taxes
+  },
+  {
+    name: "Potential Upside", 
+    data: @potential_upside
+  }
+] , stacked: true, width: 2000%>
 <h1>Vesting Calendar</h1>
 <hr>
-
-<%= column_chart @new_array, xtitle: "Months", ytitle: "Vested Stock" %>
+<%#=@new_array%>
+<%= column_chart @vesting_calendar, xtitle: "Months", ytitle: "Vested Options" %>

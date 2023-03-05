@@ -3,11 +3,15 @@ Rails.application.routes.draw do
 
 
   # Routes for the Compensation plan homeflow:
+  post("/recalculate", {:controller => "application", :action => "recalculate"})
   post("/store_offer_cookies", {:controller => "compensation_plans", :action => "store_offer_cookies"})
+ 
   get("/", {:controller => "application", :action => "start"})
   get("/begin_service", {:controller => "application", :action => "begin_service"})
+
   get("/value_offer", {:controller => "application", :action => "value_offer"})
   get("/value_stock", {:controller => "application", :action => "value_stock"})
+  
   
   # Routes for the Compensation plan calculation:
   get("/offer_calculation", {:controller => "application", :action => "offer_calculation" })
