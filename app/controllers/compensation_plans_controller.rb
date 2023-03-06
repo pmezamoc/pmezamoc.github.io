@@ -94,6 +94,8 @@ def store_equity_cookies
   cookies.store(:number_of_stock, params.fetch("query_number_of_stocks"))
   cookies.store(:expected_appreciation, params.fetch("query_expected_appreciation"))
   cookies.store(:years_to_liquidity, params.fetch("query_years_to_liquidity"))
+  cookies.store(:yearly_salary, params.fetch("query_yearly_salary"))
+  cookies.store(:yearly_bonus, params.fetch("query_yearly_bonus"))
 if session[:client_id] == nil 
   redirect_to("/client_sign_up")
 else 

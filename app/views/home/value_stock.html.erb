@@ -1,13 +1,11 @@
+
+
+<div class = "container">
 <h1>Value your Stock</h1>
+  <div class = "col">
 
-<div>
-  <div>
-    <h2>
-      Add a new offer
-    </h2>
-
-    <form action="/store_equity_cookies" method="post">
-       <div>
+    <form  action="/store_equity_cookies" method="post">
+       <div class = "form-group">
         <label for="company">
           Company
         </label>
@@ -20,6 +18,29 @@
         <%end%>
         </select>
       </div>
+
+    <h2>
+    Cash Compensation
+    </h2>
+    <div class = "form-group">
+        <label for="yearly_cash">
+          Yearly Cash Compensation
+        </label>
+
+        <input class = "form-control" type="text" id="yearly_cash" name="query_yearly_salary">
+    </div>
+
+    <div>
+        <label for="yearly_bonus">
+          Yearly Bonus
+        </label>
+
+        <input type="text" id="yearly_bonus" name="query_yearly_bonus">
+    </div>
+
+    <h2>
+    Equity Compensation
+    </h2>
 
         <label for="stock_type">
           Stock Type
@@ -80,9 +101,11 @@
 
       <p></p>
 
-      <button>
+      <button  class="btn btn-primary mb-2">
         Create offer
       </button>
     </form>
+  </div>
+  <div class = "col">
   </div>
 </div>

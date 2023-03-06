@@ -186,6 +186,8 @@ class ApplicationController < ActionController::Base
     the_plan.vesting_years = cookies.fetch(:vesting_years).to_f
     the_plan.cliff = cookies.fetch(:cliff).to_f 
     the_plan.number_of_options = cookies.fetch(:number_of_stock).to_f
+    the_plan.salary = cookies.fetch(:yearly_salary)
+    the_plan.bonus = cookies.fetch(:yearly_bonus)
 
     @expected_appreciation = cookies.fetch(:expected_appreciation).to_f - 1
     @years_to_liquidity = cookies.fetch(:years_to_liquidity).to_f
@@ -261,10 +263,7 @@ class ApplicationController < ActionController::Base
       counter = counter + 1
     end
 
-    puts @tax_stock.length
-    puts @tax_stock
-
-    @taxable_income = @appreciation.zip(@tax_stock).map{|x, y| x * y}
+    @taxable_income = @appreciation.zip(@tax_stock).map{|x, y| x * -y}
     @yearly_income = Array.new
     @yearly_income = @taxable_income.each_slice(12).to_a
     @income = Array.new
@@ -292,6 +291,21 @@ class ApplicationController < ActionController::Base
     @income.pop
     @income.push(market_value.last)
 
+    #Cash Compensation
+    cash_comp = Array.new
+    counter = 1
+
+    while counter <= @years_to_liquidity
+      comp = (the_plan.salary + the_plan.bonus)*(1.05**(counter-1))
+      cash_comp.push(comp)
+      counter = counter + 1
+    end 
+    #Cash Flows
+    @cash_flows = Array.new 
+    @cash_flows = cash_comp.zip(@income).map{|x,y| x+y}.map.with_index(1){|i,ind| [ind,i]}
+
+    #Individual values
+    
     @vesting_calendar = @vested_stock.map.with_index(1){|i, ind| [ind, i]}
     render({:template => "results/equity_results"})
   end

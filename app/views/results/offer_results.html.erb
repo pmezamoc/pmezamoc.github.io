@@ -84,7 +84,6 @@
 
 <h1>Exercise Scenarios</h1>
 <hr>
-<%#=@new_array%>
 <%= column_chart data = [
   {
     name: "Cost to Exercise", 
@@ -101,5 +100,5 @@
 ] , stacked: true, width: 2000%>
 <h1>Vesting Calendar</h1>
 <hr>
-<%#=@new_array%>
+
 <%= column_chart @vesting_calendar, xtitle: "Months", ytitle: "Vested Options" %>

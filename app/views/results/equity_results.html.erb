@@ -1,6 +1,111 @@
-<h1>Hello</h1>
+<div>
+<h1>Value your Stock</h1>
+  <div>
 
-<%=@appreciation%>
-<%=@vesting_calendar%>
-<%=@monthly_appreciation%>
-<%=@income%>
+    <form  action="/store_equity_cookies" method="post">
+       <div>
+        <label for="company">
+          Company
+        </label>
+
+        <select id="company_box" name="query_company">
+        <%Company.all.each do |a_company|%>
+          <option value ="<%=a_company.company_name%>">
+                  <%=a_company.company_name%>
+          </option>
+        <%end%>
+        </select>
+      </div>
+
+    <h2>
+    Cash Compensation
+    </h2>
+    <div>
+        <label for="yearly_cash">
+          Yearly Cash Compensation
+        </label>
+
+        <input class = "form-control" type="text" id="yearly_cash" name="query_yearly_salary">
+    </div>
+
+    <div>
+        <label for="yearly_bonus">
+          Yearly Bonus
+        </label>
+
+        <input type="text" id="yearly_bonus" name="query_yearly_bonus">
+    </div>
+
+    <h2>
+    Equity Compensation
+    </h2>
+
+        <label for="stock_type">
+          Stock Type
+        </label>
+        <select id="stock_type_box" name="query_stock_type">
+        <%stock_type = ["RSU"]%>
+        <%stock_type.each do |a_stock_type|%>
+          <option value ="<%=a_stock_type%>">
+                  <%=a_stock_type%>
+          </option>
+        <%end%>
+        </select>
+
+      <div>
+        <label for="number_of_stocks">
+          Number of Stocks
+        </label>
+
+        <input type="text" id="number_of_stocks" name="query_number_of_stocks">
+      </div>
+
+      <div>
+        <label for="price_at_grant">
+          Price at Grant
+        </label>
+
+        <input type="text" id="price_at_grant" name="query_price_at_grant">
+      </div>
+
+      <div>
+        <label for="vesting_years">Vesting Years</label>
+        <input type="text" id="vesting_years" name="query_vesting_years" value="1">
+      </div>
+
+      <div>
+        <label for="cliff">
+          Cliff
+        </label>
+
+        <input type="text" id="cliff_box" name="query_cliff">
+      </div>
+
+      <div>
+        <label for="expected_appreciation">
+          Expected Appreciation
+        </label>
+
+        <input type="text" id="appreciation_box" name="query_expected_appreciation">
+      </div>
+
+      <div>
+        <label for="years_to_liquidity">
+          Years to Liquidity
+        </label>
+
+        <input type="text" id="appreciation_box" name="query_years_to_liquidity">
+      </div>
+
+      <p></p>
+
+      <button  class="btn btn-primary mb-2">
+        Recalculate
+      </button>
+    </form>
+  </div>
+  <div class = "col">
+  </div>
+
+  <%= column_chart @cash_flows, xtitle: "Years", ytitle: "Cash Flows" %>
+</div>
