@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  require 'enumerator'
   before_action(:load_current_client)
   
   # Uncomment line 5 in this file and line 3 in ClientAuthenticationController if you want to force clients to sign in before any other actions.
@@ -181,13 +182,13 @@ class ApplicationController < ActionController::Base
 
     the_plan.employee_id = session[:client_id] 
     the_plan.stock_type  = cookies.fetch(:stock_type) 
-    the_plan.strike_price  = cookies.fetch(:price_at_grant).to_i
-    the_plan.vesting_years = cookies.fetch(:vesting_years).to_i
-    the_plan.cliff = cookies.fetch(:cliff).to_i 
-    the_plan.number_of_options = cookies.fetch(:number_of_stock).to_i
+    the_plan.strike_price  = cookies.fetch(:price_at_grant).to_f
+    the_plan.vesting_years = cookies.fetch(:vesting_years).to_f
+    the_plan.cliff = cookies.fetch(:cliff).to_f 
+    the_plan.number_of_options = cookies.fetch(:number_of_stock).to_f
 
-    @expected_appreciation = cookies.fetch(:expected_appreciation).to_i
-    @years_to_liquidity = cookies.fetch(:years_to_liquidity).to_i
+    @expected_appreciation = cookies.fetch(:expected_appreciation).to_f - 1
+    @years_to_liquidity = cookies.fetch(:years_to_liquidity).to_f
 
     the_plan.save
 
@@ -203,14 +204,16 @@ class ApplicationController < ActionController::Base
     monthly_appreciation_t = (the_plan.strike_price * @expected_appreciation)/(@years_to_liquidity * 12)
     monthly_appreciation = (the_plan.strike_price * @expected_appreciation)/(@years_to_liquidity * 12)
 
+    #Appreciation array
     while counter <= @years_to_liquidity*12
-      @appreciation.push(monthly_appreciation_t)
+      @appreciation.push(monthly_appreciation_t.round(2))
       monthly_appreciation_t = monthly_appreciation_t + monthly_appreciation
       counter = counter + 1
     end
 
     counter = 1
 
+    #Vesting Calendar
     while counter <= starting_month
       if counter < starting_month
         @vested_stock.push(0)
@@ -224,12 +227,70 @@ class ApplicationController < ActionController::Base
     current_month = starting_month + 1
     vest_per_month = ((the_plan.number_of_options * (0.75)) / @months)
     counter = 1
+    vest = @vested.dup
 
     while counter <= @months
-        @vested = @vested + vest_per_month
-        @vested_stock.push(@vested.round) 
+        vest = vest + vest_per_month
+        @vested_stock.push(vest.round) 
         counter = counter + 1 
     end
+
+    #Taxes 
+    extra_months = (@years_to_liquidity*12) - (the_plan.vesting_years * 12)
+    @tax_stock = Array.new
+    counter = 1
+    while counter <= starting_month
+      if counter < starting_month
+        @tax_stock.push(0)
+      else 
+        @tax_stock.push(@vested)
+      end
+      counter = counter + 1 
+    end
+
+    counter = 1
+    while counter <= @months
+        vest = vest_per_month
+        @tax_stock.push(vest_per_month) 
+        counter = counter + 1 
+    end
+
+    counter = 1
+    while counter <= extra_months
+      @tax_stock.push(0)
+      counter = counter + 1
+    end
+
+    puts @tax_stock.length
+    puts @tax_stock
+
+    @taxable_income = @appreciation.zip(@tax_stock).map{|x, y| x * y}
+    @yearly_income = Array.new
+    @yearly_income = @taxable_income.each_slice(12).to_a
+    @income = Array.new
+
+    counter = 0 
+    while counter < @yearly_income.length
+      sum = @yearly_income.at(counter).inject(:+)
+      @income.push(sum)
+      counter = counter+1
+    end
+
+    #Market Value of Stock
+    market_value = Array.new
+    market_value = @appreciation.map{|num| num + the_plan.strike_price}
+    stock_value = Array.new
+    stock_value = @vested_stock.dup
+
+    counter = 1
+    while counter <= extra_months
+      stock_value.push(@vested_stock.last)
+      counter = counter + 1
+    end
+
+    market_value = market_value.zip(stock_value).map{|x, y| x * y}
+    @income.pop
+    @income.push(market_value.last)
 
     @vesting_calendar = @vested_stock.map.with_index(1){|i, ind| [ind, i]}
     render({:template => "results/equity_results"})
