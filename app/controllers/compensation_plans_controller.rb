@@ -84,4 +84,20 @@ class CompensationPlansController < ApplicationController
     redirect_to("/offer_calculation")
   end
 end
+
+def store_equity_cookies
+  cookies.store(:company, params.fetch("query_company"))  
+  cookies.store(:stock_type, params.fetch("query_stock_type"))
+  cookies.store(:price_at_grant, params.fetch("query_price_at_grant"))
+  cookies.store(:vesting_years, params.fetch("query_vesting_years"))
+  cookies.store(:cliff, params.fetch("query_cliff"))
+  cookies.store(:number_of_stock, params.fetch("query_number_of_stocks"))
+  cookies.store(:expected_appreciation, params.fetch("query_expected_appreciation"))
+  cookies.store(:years_to_liquidity, params.fetch("query_years_to_liquidity"))
+if session[:client_id] == nil 
+  redirect_to("/client_sign_up")
+else 
+  redirect_to("/equity_calculation")
+end
+end
 end

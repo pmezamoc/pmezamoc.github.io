@@ -174,4 +174,65 @@ class ApplicationController < ActionController::Base
     @taxes = @taxes.zip(years).map(&:reverse)
     render({:template => "results/offer_results"})
   end
+
+
+  def equity_calculation
+    the_plan = CompensationPlan.new
+
+    the_plan.employee_id = session[:client_id] 
+    the_plan.stock_type  = cookies.fetch(:stock_type) 
+    the_plan.strike_price  = cookies.fetch(:price_at_grant).to_i
+    the_plan.vesting_years = cookies.fetch(:vesting_years).to_i
+    the_plan.cliff = cookies.fetch(:cliff).to_i 
+    the_plan.number_of_options = cookies.fetch(:number_of_stock).to_i
+
+    expected_appreciation = cookies.fetch(:expected_appreciation).to_i
+    years_to_liquidity = cookies.fetch(:years_to_liquidity).to_i
+
+    the_plan.save
+
+    #vesting calendar
+    @vesting_month = Array.new
+    @vested_stock = Array.new
+    starting_month = the_plan.cliff * 12
+    counter = 1
+
+    @vesting_month.push(starting_month)
+    @vested = the_plan.number_of_options * (0.25)
+    appreciation = Array.new
+    monthly_appreciation_t = (the_plan.strike_price * expected_appreciation)/(years_to_liquidity * 12)
+    monthly_appreciation = (the_plan.strike_price * expected_appreciation)/(years_to_liquidity * 12)
+
+    while counter <= years_to_liquidity*12
+      appreciation.push(monthly_appreciation_t)
+      monthly_appreciation_t = monthly_appreciation_t + monthly_appreciation
+      counter = counter + 1
+    end
+
+    counter = 1
+
+    while counter <= starting_month
+      if counter < starting_month
+        @vested_stock.push(0)
+      else 
+        @vested_stock.push(@vested)
+      end
+      counter = counter + 1 
+    end
+
+    @months = (the_plan.vesting_years * 12) - starting_month
+    current_month = starting_month + 1
+    vest_per_month = ((the_plan.number_of_options * (0.75)) / @months)
+    counter = 1
+
+    while counter <= @months
+        @vested = @vested + vest_per_month
+        @vested_stock.push(@vested.round) 
+        counter = counter + 1 
+    end
+
+    @vesting_calendar = @vested_stock.map.with_index(1){|i, ind| [ind, i]}
+    render({:template => "results/equity_results"})
+  end
+
 end

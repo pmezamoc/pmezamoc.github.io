@@ -41,16 +41,20 @@ class ClientAuthenticationController < ApplicationController
     @client.email = params.fetch("query_email")
     @client.password = params.fetch("query_password")
     @client.password_confirmation = params.fetch("query_password_confirmation")
-    @client.company_id = params.fetch("query_company_id")
+    #@client.company_id = params.fetch("query_company_id")
     @client.firstname = params.fetch("query_firstname")
     @client.lastname = params.fetch("query_lastname")
 
     save_status = @client.save
 
     if save_status == true
+
       session[:client_id] = @client.id
-   
-      redirect_to("/begin_service", { :notice => "Client account created successfully."})
+      if cookies.fetch(:strike_price) != nil
+      redirect_to("/offer_calculation", { :notice => "Client account created successfully."})
+      else
+      redirect_to("/equity_calculation", { :notice => "Client account created successfully."})
+      end
     else
       redirect_to("/client_sign_up", { :alert => @client.errors.full_messages.to_sentence })
     end
