@@ -186,8 +186,8 @@ class ApplicationController < ActionController::Base
     the_plan.cliff = cookies.fetch(:cliff).to_i 
     the_plan.number_of_options = cookies.fetch(:number_of_stock).to_i
 
-    expected_appreciation = cookies.fetch(:expected_appreciation).to_i
-    years_to_liquidity = cookies.fetch(:years_to_liquidity).to_i
+    @expected_appreciation = cookies.fetch(:expected_appreciation).to_i
+    @years_to_liquidity = cookies.fetch(:years_to_liquidity).to_i
 
     the_plan.save
 
@@ -199,12 +199,12 @@ class ApplicationController < ActionController::Base
 
     @vesting_month.push(starting_month)
     @vested = the_plan.number_of_options * (0.25)
-    appreciation = Array.new
-    monthly_appreciation_t = (the_plan.strike_price * expected_appreciation)/(years_to_liquidity * 12)
-    monthly_appreciation = (the_plan.strike_price * expected_appreciation)/(years_to_liquidity * 12)
+    @appreciation = Array.new
+    monthly_appreciation_t = (the_plan.strike_price * @expected_appreciation)/(@years_to_liquidity * 12)
+    monthly_appreciation = (the_plan.strike_price * @expected_appreciation)/(@years_to_liquidity * 12)
 
-    while counter <= years_to_liquidity*12
-      appreciation.push(monthly_appreciation_t)
+    while counter <= @years_to_liquidity*12
+      @appreciation.push(monthly_appreciation_t)
       monthly_appreciation_t = monthly_appreciation_t + monthly_appreciation
       counter = counter + 1
     end
