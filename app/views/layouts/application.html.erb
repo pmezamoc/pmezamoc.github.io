@@ -30,15 +30,14 @@
 
 
   </head>
-  <h1>Sommos</h1>
+  <div class = "d-flex justify-content-end">
+  <h1 style = "margin-right:50px;">Sommos</h1>
+  </div>
   <body>
   
+  <div class = "d-flex justify-content-end">
   <%if session.fetch(:client_id) != nil%>
-  <ul>
-    <li>
-      <a href = "/destroy_cookies">User Sign Out</a>
-    </li>
-  </ul>
+  <a href = "/destroy_cookies" style = "margin-right:50px">User Sign Out</a>
   <%else%>
   <ul>
     <li>
@@ -55,6 +54,7 @@
     </li>
   </ul>
   <%end%>
+  </div>
     <%= yield %>
   </body>
 </html>

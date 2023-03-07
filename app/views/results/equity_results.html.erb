@@ -1,7 +1,8 @@
 <div>
 <h1>Value your Stock</h1>
-  <div>
-
+<div class = "row">
+  <div class = "col">
+  <div class = "card align-items-center" style="width:25rem;margin-left:10px">
     <form  action="/store_equity_cookies" method="post">
        <div>
         <label for="company">
@@ -20,20 +21,22 @@
     <h2>
     Cash Compensation
     </h2>
-    <div>
-        <label for="yearly_cash">
+    <div class = "form-group row">
+        <label for="yearly_cash" class = "col-sm-5 col-form-label">
           Yearly Cash Compensation
         </label>
-
+    <div class = "col-sm-5">
         <input class = "form-control" type="text" id="yearly_cash" name="query_yearly_salary">
     </div>
+    </div>
 
-    <div>
-        <label for="yearly_bonus">
+    <div class = "form-group row">
+        <label for="yearly_bonus"  class = "col-sm-5 col-form-label" >
           Yearly Bonus
         </label>
-
-        <input type="text" id="yearly_bonus" name="query_yearly_bonus">
+    <div class = "col-sm-5">
+        <input class = "form-control" type="text" id="yearly_bonus" name="query_yearly_bonus">
+    </div>
     </div>
 
     <h2>
@@ -104,8 +107,10 @@
       </button>
     </form>
   </div>
-  <div class = "col">
   </div>
-
-  <%= column_chart @cash_flows, xtitle: "Years", ytitle: "Cash Flows" %>
+  <div class = "col">
+  <div class = "card align-items-center" style = "width:50rem;margin-right:10px;">
+  <%= column_chart @cash_flows, xtitle: "Years", ytitle: "Cash Flows", width: "720px", height: "200px"%>
+  </div>
+  </div>
 </div>

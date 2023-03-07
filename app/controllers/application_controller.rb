@@ -304,7 +304,8 @@ class ApplicationController < ActionController::Base
     @cash_flows = Array.new 
     @cash_flows = cash_comp.zip(@income).map{|x,y| x+y}.map.with_index(1){|i,ind| [ind,i]}
 
-    #Individual values
+    #Individual values, I need to get stock income and  cash income
+    puts @cash_flows
     
     @vesting_calendar = @vested_stock.map.with_index(1){|i, ind| [ind, i]}
     render({:template => "results/equity_results"})

@@ -1,15 +1,18 @@
-<h1>How can we help?</h1>
+<div class = "d-flex justify-content-center">
+<h1 class ="display-3">How can we help?</h1>
+</div>
 
+<div class="d-flex justify-content-center">
 <form action ="/value_offer">
-<button>Value Offer</button>
+<button class="btn btn-secondary" style = "margin:5px;">Value Offer</button>
 </form>
 
 <form action ="/value_stock">
-<button>Value Stock</button>
+<button class="btn btn-secondary" style = "margin:5px;">Value Stock</button>
 </form>
 
 <form action ="/companies">
-<button>View Companies</button>
+<button class="btn btn-secondary" style = "margin:5px;">View Companies</button>
 </form>
 
 <%if session[:client_id] == nil%>
@@ -18,7 +21,9 @@
   <%if the_plan_id == nil%>
   <%else%>
   <form action ="/compensation_plans/<%=the_plan_id.id%>">
-  <button>View Plans</button>
+  <button class="btn btn-secondary" style = "margin:5px;">View Plans</button>
   </form>
   <%end%>
 <%end%>
+</div>
+</div>
