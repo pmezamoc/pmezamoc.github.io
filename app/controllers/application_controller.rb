@@ -176,6 +176,103 @@ class ApplicationController < ActionController::Base
     render({:template => "results/offer_results"})
   end
 
+  def taxes(taxable_income)
+  tax_results = Array.new
+  taxable_income.each do |yearly_income|
+  if (yearly_income.to_f > 8952)
+    first_bracket = 8952*0.0192
+  else
+    first_bracket = yearly_income.to_f*0.0192
+  end
+  if (first_bracket < 0)
+    first_bracket = 0
+  end
+  if (yearly_income.to_f > 75985)
+    second_bracket = (75985-8952)*0.064
+  else
+    second_bracket = (yearly_income.to_f-8952)*0.064
+  end
+  if (second_bracket < 0)
+    second_bracket = 0
+  end
+  if (yearly_income.to_f > 133536)
+    third_bracket = (133536-75985)*0.1088
+  else
+    third_bracket = (yearly_income.to_f-75985)*0.1088
+  end
+  if (third_bracket < 0)
+    third_bracket = 0
+  end
+  if (yearly_income.to_f > 155230)
+    forth_bracket = (155230-133536)*0.16
+  else
+    forth_bracket = (yearly_income.to_f-133536)*0.16
+  end
+  if (forth_bracket < 0)
+    forth_bracket = 0
+  end
+  if (yearly_income.to_f > 185853)
+    fifth_bracket = (185853-155230)*0.1792
+  else
+    fifth_bracket = (yearly_income.to_f-155230)*0.1792
+  end
+  if (fifth_bracket < 0)
+    fifth_bracket = 0
+  end
+  if (yearly_income.to_f > 374838)
+    sixth_bracket = (374838-185853)*0.2136
+  else
+    sixth_bracket = (yearly_income.to_f-185853)*0.2136
+  end
+  if (sixth_bracket < 0)
+    sixth_bracket = 0
+  end
+  if (yearly_income.to_f > 590796)
+    seventh_bracket = (590796-374838)*0.2352
+  else
+    seventh_bracket = (yearly_income.to_f-374838)*0.2352
+  end
+  if (seventh_bracket < 0)
+    seventh_bracket = 0
+  end
+  if (yearly_income.to_f > 1127927)
+    eighth_bracket = (1127927-590796)*0.30
+  else
+    eighth_bracket = (yearly_income.to_f-590796)*0.30
+  end
+  if (eighth_bracket < 0)
+    eighth_bracket = 0
+  end
+  if (yearly_income.to_f > 1503902)
+    nineth_bracket = (1503902-1127927)*0.32
+  else
+    nineth_bracket = (yearly_income.to_f-1127927)*0.32
+  end
+  if (nineth_bracket < 0)
+    nineth_bracket = 0
+  end
+  if (yearly_income.to_f > 4511707)
+    tenth_bracket = (4511707-1503902)*0.34
+  else
+    tenth_bracket = (yearly_income.to_f-1503902)*0.34
+  end
+  if (tenth_bracket < 0)
+    tenth_bracket = 0
+  end
+  if (yearly_income.to_f > 1000000000)
+    eleventh_bracket = (1000000000-4511707)*0.35
+  else
+    eleventh_bracket = (yearly_income.to_f-4511707)*0.35
+  end
+  if (eleventh_bracket < 0)
+    eleventh_bracket = 0
+  end
+  tax = -(first_bracket + second_bracket + third_bracket + forth_bracket + fifth_bracket + sixth_bracket + seventh_bracket + eighth_bracket + nineth_bracket + tenth_bracket + eleventh_bracket)
+  tax_results.push(tax)
+  end
+  return tax_results
+end
+
 
   def equity_calculation
     the_plan = CompensationPlan.new
@@ -237,7 +334,7 @@ class ApplicationController < ActionController::Base
         counter = counter + 1 
     end
 
-    #Taxes 
+    #Equity Income 
     extra_months = (@years_to_liquidity*12) - (the_plan.vesting_years * 12)
     @tax_stock = Array.new
     counter = 1
@@ -263,7 +360,9 @@ class ApplicationController < ActionController::Base
       counter = counter + 1
     end
 
-    @taxable_income = @appreciation.zip(@tax_stock).map{|x, y| x * -y}
+    market_value = Array.new
+    market_value = @appreciation.map{|num| num + the_plan.strike_price}
+    @taxable_income = market_value.zip(@tax_stock).map{|x, y| x * y}
     @yearly_income = Array.new
     @yearly_income = @taxable_income.each_slice(12).to_a
     @income = Array.new
@@ -276,8 +375,6 @@ class ApplicationController < ActionController::Base
     end
 
     #Market Value of Stock
-    market_value = Array.new
-    market_value = @appreciation.map{|num| num + the_plan.strike_price}
     stock_value = Array.new
     stock_value = @vested_stock.dup
 
@@ -288,8 +385,6 @@ class ApplicationController < ActionController::Base
     end
 
     market_value = market_value.zip(stock_value).map{|x, y| x * y}
-    @income.pop
-    @income.push(market_value.last)
 
     #Cash Compensation
     cash_comp = Array.new
@@ -300,13 +395,41 @@ class ApplicationController < ActionController::Base
       cash_comp.push(comp)
       counter = counter + 1
     end 
+    #Capital Gains Tax
+    counter = 1
+    cap_gains = Array.new 
+    while counter <= @years_to_liquidity
+      cap_gains.push(0)
+      counter = counter + 1
+    end 
+    cap_gains.pop
+    cap_gains.push(market_value.last)
+
+    capital_gains_tax = cap_gains.map{|x| x * -0.10}
+
     #Cash Flows
-    @cash_flows = Array.new 
-    @cash_flows = cash_comp.zip(@income).map{|x,y| x+y}.map.with_index(1){|i,ind| [ind,i]}
+    cash_flows = Array.new
+    @cash_flows_i = Array.new
+    cash_flows = cash_comp.zip(@income).map{|x,y| x+y}
+    @cash_flows_i = cash_comp.zip(cap_gains).map{|x,y| x+y}.map.with_index(1){|i,ind| [ind,i]}
 
     #Individual values, I need to get stock income and  cash income
-    puts @cash_flows
-    
+    tax_results = taxes(cash_flows)
+    puts cap_gains #money from selling stock
+    puts cash_comp #cash comp
+    puts tax_results #income tax 
+    puts capital_gains_tax # capital gains tax
+    puts cash_flows #income tax + equity gains
+
+    @total_cash =  cash_comp.inject(:+)
+    @total_stock = cap_gains.inject(:+)
+    @income_tax = tax_results.inject(:+)
+    @capital_tax = capital_gains_tax.inject(:+)
+    @net_comp = @total_cash + @total_stock
+
+    puts @total_cash
+    puts @total_stock
+
     @vesting_calendar = @vested_stock.map.with_index(1){|i, ind| [ind, i]}
     render({:template => "results/equity_results"})
   end

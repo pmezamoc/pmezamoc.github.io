@@ -1,116 +1,175 @@
 <div>
-<h1>Value your Stock</h1>
+
+<div class = "container-fluid">
+  
 <div class = "row">
-  <div class = "col">
-  <div class = "card align-items-center" style="width:25rem;margin-left:10px">
-    <form  action="/store_equity_cookies" method="post">
-       <div>
-        <label for="company">
-          Company
-        </label>
+  <div class = "col-sm-4">
+  <div class = "card" style="margin-left:5px">
+    <div class = "card-header text-center">
+     <h5>Value your Compensation Plan </h5>
+    </div>
+    <div class = "card-body">
+      <form  action="/store_equity_cookies" method="post">
+        <div class = "form-group row">
+          <label for="company" class = "col-sm-5 col-form-label">
+            Company
+          </label>
+          <div class = "col-sm-7">
+            <select id="company_box" name="query_company" class = "form-control">
+            <%Company.all.each do |a_company|%>
+              <option value ="<%=a_company.company_name%>">
+                      <%=a_company.company_name%>
+              </option>
+            <%end%>
+            </select>
+          </div>
+        </div>
 
-        <select id="company_box" name="query_company">
-        <%Company.all.each do |a_company|%>
-          <option value ="<%=a_company.company_name%>">
-                  <%=a_company.company_name%>
-          </option>
-        <%end%>
-        </select>
+      <h6>
+      Cash Compensation
+      </h6>
+      <div class = "form-group row">
+          <label for="yearly_cash" class = "col-sm-5 col-form-label">
+            Yearly Cash
+          </label>
+      <div class = "col-sm-7">
+          <input class = "form-control" type="text" id="yearly_cash" name="query_yearly_salary">
+      </div>
       </div>
 
-    <h2>
-    Cash Compensation
-    </h2>
-    <div class = "form-group row">
-        <label for="yearly_cash" class = "col-sm-5 col-form-label">
-          Yearly Cash Compensation
-        </label>
-    <div class = "col-sm-5">
-        <input class = "form-control" type="text" id="yearly_cash" name="query_yearly_salary">
+      <div class = "form-group row">
+          <label for="yearly_bonus"  class = "col-sm-5 col-form-label" >
+            Yearly Bonus
+          </label>
+      <div class = "col-sm-7">
+          <input class = "form-control" type="text" id="yearly_bonus" name="query_yearly_bonus">
+      </div>
+      </div>
+
+      <h6>
+      Equity Compensation
+      </h6>
+        <div class = "form-group row">
+            <label for="stock_type" class = "col-sm-5 col-form-label" >
+              Stock Type
+            </label>
+          <div class = "col-sm-7">
+            <select id="stock_type_box" name="query_stock_type" class = "form-control">
+            <%stock_type = ["RSU"]%>
+            <%stock_type.each do |a_stock_type|%>
+              <option value ="<%=a_stock_type%>">
+                      <%=a_stock_type%>
+              </option>
+            <%end%>
+            </select>
+          </div>
+        </div>
+
+        <div class = "form-group row">
+          <label for="number_of_stocks"  class = "col-sm-5 col-form-label">
+            Number of Stocks
+          </label>
+        <div class = "col-sm-7">
+          <input class ="form-control" type="text" id="number_of_stocks" name="query_number_of_stocks">
+        </div>
+        </div>
+
+        <div class = "form-group row">
+          <label for="price_at_grant" class = "col-sm-5 col-form-label">
+            Price at Grant
+          </label>
+        <div class = "col-sm-7">
+          <input class ="form-control" type="text" id="price_at_grant" name="query_price_at_grant">
+        </div>
+        </div>
+
+        <div class = "form-group row">
+          <label for="vesting_years" class = "col-sm-5 col-form-label">Vesting Years</label>
+          <div class = "col-sm-7">
+          <input class = "form-control" type="text" id="vesting_years" name="query_vesting_years" value="1">
+          </div>
+        </div>
+
+        <div class = "form-group row">
+          <label for="cliff" class = "col-sm-5 col-form-label" >
+            Cliff
+          </label>
+          <div class = "col-sm-7">
+          <input class = "form-control" type="text" id="cliff_box" name="query_cliff">
+          </div>
+        </div>
+
+        <div class = "form-group row">
+          <label for="expected_appreciation" class = "col-sm-5 col-form-label">
+            Expected Appreciation
+          </label>
+          <div class = "col-sm-7">
+          <input class = "form-control" type="text" id="appreciation_box" name="query_expected_appreciation">
+          </div>
+        </div>
+
+        <div class = "form-group row">
+          <label for="years_to_liquidity" class = "col-sm-5 col-form-label">
+            Years to Liquidity
+          </label>
+          <div class = "col-sm-7">
+          <input class = "form-control" type="text" id="appreciation_box" name="query_years_to_liquidity">
+          </div>
+        </div>
+
+        <p></p>
+
+        <button  class="btn btn-primary mb-2">
+          Recalculate
+        </button>
+      </form>
     </div>
     </div>
+  </div>
 
-    <div class = "form-group row">
-        <label for="yearly_bonus"  class = "col-sm-5 col-form-label" >
-          Yearly Bonus
-        </label>
-    <div class = "col-sm-5">
-        <input class = "form-control" type="text" id="yearly_bonus" name="query_yearly_bonus">
+<div class = "col-sm-8">
+  <div class = "card" style = "margin-right:5px;">
+    <div class = "row">
+
+      <%= column_chart @cash_flows_i, xtitle: "Years", ytitle: "Cash Flows", height: "200px"%>
     </div>
+
+
+
+  <div class = "row">
+    <div class = "col-sm-4 ">
+    <%= column_chart data = [
+      {
+        name: "Stock Based Comp", 
+        data: [["Inflows", @total_stock]]
+      },
+      {
+        name: "Cash Comp", 
+        data: [["Inflows", @total_cash]]
+      }
+    ] , stacked: true,library: { legend: { position: "bottom", labels: { fontSize: "10px" } } }%>
     </div>
-
-    <h2>
-    Equity Compensation
-    </h2>
-
-        <label for="stock_type">
-          Stock Type
-        </label>
-        <select id="stock_type_box" name="query_stock_type">
-        <%stock_type = ["RSU"]%>
-        <%stock_type.each do |a_stock_type|%>
-          <option value ="<%=a_stock_type%>">
-                  <%=a_stock_type%>
-          </option>
-        <%end%>
-        </select>
-
-      <div>
-        <label for="number_of_stocks">
-          Number of Stocks
-        </label>
-
-        <input type="text" id="number_of_stocks" name="query_number_of_stocks">
-      </div>
-
-      <div>
-        <label for="price_at_grant">
-          Price at Grant
-        </label>
-
-        <input type="text" id="price_at_grant" name="query_price_at_grant">
-      </div>
-
-      <div>
-        <label for="vesting_years">Vesting Years</label>
-        <input type="text" id="vesting_years" name="query_vesting_years" value="1">
-      </div>
-
-      <div>
-        <label for="cliff">
-          Cliff
-        </label>
-
-        <input type="text" id="cliff_box" name="query_cliff">
-      </div>
-
-      <div>
-        <label for="expected_appreciation">
-          Expected Appreciation
-        </label>
-
-        <input type="text" id="appreciation_box" name="query_expected_appreciation">
-      </div>
-
-      <div>
-        <label for="years_to_liquidity">
-          Years to Liquidity
-        </label>
-
-        <input type="text" id="appreciation_box" name="query_years_to_liquidity">
-      </div>
-
-      <p></p>
-
-      <button  class="btn btn-primary mb-2">
-        Recalculate
-      </button>
-    </form>
+  <div class = "col-sm-4">
+  <%= column_chart data = [
+    {
+      name: "Income Tax", 
+      data: [["Taxes", @income_tax]]
+    },
+    {
+      name: "Capital Gains Tax", 
+      data: [["Taxes", @capital_tax]]
+    }
+  ] , stacked: true, legend: "top"%>
   </div>
+  <div class = "col-sm-4">
+  <%= column_chart data = [
+    {
+      name: "Net. Comp", 
+      data: [["Net", @net_comp]]
+    }
+  ] , stacked: true, legend: "top", xmax: 20%>
   </div>
-  <div class = "col">
-  <div class = "card align-items-center" style = "width:50rem;margin-right:10px;">
-  <%= column_chart @cash_flows, xtitle: "Years", ytitle: "Cash Flows", width: "720px", height: "200px"%>
-  </div>
-  </div>
+</div>
+</div>
+</div>
 </div>
