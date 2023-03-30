@@ -39,20 +39,6 @@
   <%if session.fetch(:client_id) != nil%>
   <a href = "/destroy_cookies" style = "margin-right:50px">User Sign Out</a>
   <%else%>
-  <ul>
-    <li>
-      <a href = "/user_sign_up">User Sign Up</a>
-    </li>
-    <li>
-      <a href = "/user_sign_in">User Sign In</a>
-    </li>
-    <li>
-      <a href = "/companies/index">Companies</a>
-    </li>
-    <li>
-      <a href = "/">Homepage</a>
-    </li>
-  </ul>
   <%end%>
   </div>
     <%= yield %>
